@@ -7,13 +7,15 @@ import java.util.Random;
 
 public class GamePanel extends JPanel {
     public static final int WIDTH = 500;
-    public static final int HEIGHT = 480;
+    public static final int HEIGHT = 500;
+    public static final int ROWS = HEIGHT / 20;
+    public static final int COLUMNS = WIDTH / 20;
 
-    public static Cell[][] cells = new Cell[WIDTH / 20][HEIGHT / 20];
+    public static Cell[][] cells = new Cell[ROWS][COLUMNS];
 
     GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setLayout(new GridLayout(WIDTH / 20, HEIGHT / 20));
+        this.setLayout(new GridLayout(ROWS, COLUMNS));
         this.setBackground(Color.BLACK);
 
         for (int i = 0; i < cells.length; i++) {
@@ -22,7 +24,7 @@ public class GamePanel extends JPanel {
                 this.add(cells[i][j]);
                 if (new Random().nextBoolean()) {
                     JLabel placeLabel = new JLabel();
-                    if (new Random().nextInt(6) == 5) {
+                    if (new Random().nextInt(20) == 19) {
                         cells[i][j].setPlace(new Cell.Place(Cell.Place.PlaceType.VILLAGE));
                         placeLabel.setIcon(new ImageIcon("files/pics/village.png"));
                     } else {

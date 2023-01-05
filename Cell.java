@@ -1,4 +1,8 @@
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -11,6 +15,7 @@ public class Cell extends JPanel {
 
     public static class Place {
         private PlaceType placeType = PlaceType.STEPPE;
+        private String name = "";
 
         private Place() {
 
@@ -18,6 +23,20 @@ public class Cell extends JPanel {
 
         Place(PlaceType placeType) {
             this.placeType = placeType;
+            if (placeType == PlaceType.VILLAGE) {
+                try {
+                    File file = new File("files/text/villagesNames.txt");
+                    try (Scanner reader = new Scanner(file)) {
+                        Random random = new Random();
+                        do {
+                            name = " " + reader.nextLine();
+                        } while (reader.hasNextLine() && random.nextBoolean());
+                    }
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
         }
 
         public enum PlaceType {
@@ -38,6 +57,10 @@ public class Cell extends JPanel {
                         return "Пустка";
                 }
             }
+        }
+
+        public PlaceType getPlaceType() {
+            return placeType;
         }
     }
 
@@ -79,7 +102,7 @@ public class Cell extends JPanel {
     @Override
     public String toString() {
         String string = "";
-        string += place.placeType.toString();
+        string += place.placeType.toString() + place.name;
         return string;
     }
 }
